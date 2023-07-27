@@ -4,7 +4,7 @@
 #define pin1 4 
 #define pin2 2 
 tb button1(pin1);
-tb button2(pin2, 40); //second value is threshold
+tb button2(pin2, 60); //second value is threshold
 
 void setup() {
    Serial.begin(115200);
