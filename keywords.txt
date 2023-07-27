@@ -1,0 +1,7 @@
+tb	KEYWORD1
+update	KEYWORD2
+getTaps	KEYWORD2
+isHold	KEYWORD2
+isClicks	KEYWORD2
+isHolded	KEYWORD2
+isRelease	KEYWORD2
