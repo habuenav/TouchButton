@@ -1,5 +1,4 @@
 #include <tb.h>
-// Please don't use delay() function in your code 
 
 #define pin1 4 
 #define pin2 2 
@@ -11,10 +10,6 @@ void setup() {
 }
 
 void loop() {
-  //Check and update button condition
-  //If u use more then one button, you must write check() functions to all of them
-  button1.update();
-  button2.update();
 
   //Single tap
   if(button1.isClicks(1)) Serial.println("Single tap");
@@ -32,10 +27,4 @@ void loop() {
   // Do anything one time when button was release
     if(button2.isRelease()){ Serial.println("Release");}
 
-  //Take number of taps
-    byte num = button2.getTaps();
-    if (num > 0) {
-      Serial.print(num);
-      Serial.println(" tap(s)");
-    }
 }
