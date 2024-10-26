@@ -1,78 +1,76 @@
 #### **[[ENGLISH]](#spanish)**
 
-# Breath
+# TouchButton
 
-`Breath` es una librería que facilita el uso del sensor de presión (MPS20N0040D - HX710B) para la detección de soplo en proyectos como instrumentos electrónicos de viento (EWI).
+TouchButton es una biblioteca diseñada para simplificar el uso de los pines táctiles capacitivos con el ESP32, lo que le permite detectar fácilmente interacciones táctiles como clics, toque sostenido y soltar.
 
 <p align="center">
-<img width="100%" src='https://i.postimg.cc/15tXcXJD/touch.png' title=''/>
+<img width="25%" src='https://i.postimg.cc/15tXcXJD/touch.png' title=''/>
 </p>
 
-## Características
+## Caracteristicas
 
-- Codigo optimizado para obtener lecturas rapidas.
-- Creado para Leer valores de soplo con el sensor (MPS20N0040D - HX710B), no funciona para obtener valores de presion.
-- Calibración automática del valor inicial del sensor a 0.
-- Ajuste de sensibilidad mediante un factor de resistencia.
-- Configuración de límites de lectura y de salida máxima para adaptarse a las necesidades del proyecto.
+- **Optimizado para ESP32**: utiliza la funcionalidad del sensor táctil integrado.
+- **Sensibilidad personalizable**: establece el umbral de sensibilidad táctil para adaptarse a diferentes necesidades.
+- **Interacciones táctiles**: detecta varios eventos táctiles, incluidos clics únicos, clics múltiples, presiones y liberaciones.
+- **Ajuste del umbral**: establece automáticamente la sensibilidad en función de una lectura inicial.
+- 
+## Requirementos
 
-## Requisitos
+- **Board** : Probado en tarjetas Esp32.
+- **Arduino IDE** : Recommended 1.8.10 or higher
 
-- **Placa**: Probado en placas Esp32, Esp32-S2, Esp32-C3 y Esp32-S3
-- **Sensor**: (MPS20N0040D - HX710B)
-- **IDE de Arduino**: Recomendado 1.8.10 o superior
+## Instalacion
 
-## Instalación
+1. Descargue el archivo ZIP de la biblioteca desde GitHub.
+2. En el IDE de Arduino, vaya a Sketch > Incluir biblioteca > Agregar biblioteca .ZIP...
+3. Seleccione el archivo ZIP descargado para instalar la biblioteca.
 
-1. Descarga el archivo ZIP de la librería desde [GitHub](https://github.com/habuenav/Breath).
-2. En el IDE de Arduino, ve a **Sketch** > **Include Library** > **Add .ZIP Library...**.
-3. Selecciona el archivo ZIP descargado para instalar la librería.
+O puedes extraer el archivo ZIP del paso 1 en el directorio de bibliotecas de Arduino.
 
-O tambien puedes Extraer el archivo ZIP del paso 1 en tu directorio de librerías de Arduino.
+## Ejemplo
 
-### Codigo de ejemplo
 ```
-#include <Breath.h>
-#define OUTPUT_PIN 13
-#define CLOCK_PIN 12
-Breath breath(OUTPUT_PIN, CLOCK_PIN);
+#include <TouchButton.h>
+#define TOUCH_PIN T0  // Define the touch pin (T0 is an example)
+tb touchButton(TOUCH_PIN, 70); // Create a touchButton instance with a 70% sensitivity threshold.
 
 void setup() {
   Serial.begin(115200);
-  breath.setResistance(3);  // Ajustar la resistencia de soplo (1 = mínima, 5 = máxima).
-  breath.setMaxOut(127);    // Establecer el valor máximo de salida.
 }
-
 void loop() {
-  int16_t breathValue = breath.read();
-  Serial.println(breathValue);
+  if (touchButton.isClick())     { Serial.println("Single click detected!"); }
+  if (touchButton.isHold(500))   { Serial.println("Hold detected for 500ms!"); }
+  if (touchButton.isHolded(1000)){ Serial.println("Hold detected once at 1000ms!"); }
+  if (touchButton.isRelease(300)){ Serial.println("Button released after being held for 300ms."); }
   delay(100);
 }
 ```
 
 ## API
+
 ### Constructor
 
-<b> Breath(byte output_pin, byte clock_pin): </b> Inicializa la clase Breath con el pin de salida de datos del sensor y el pin de reloj.
+tb(uint8_t pin, uint8_t umbral = 70): inicializa la instancia TouchButton con el pin táctil y el umbral de sensibilidad especificados.
 
-### Métodos
+## Metodos
 
-* <b> int16_t read():</b> Lee el valor del sensor, aplica la calibración y devuelve un valor ajustado que varía entre 0 y el valor máximo configurado.
-* <b> void setResistance(uint8_t level):</b> Ajusta la sensibilidad del sensor, donde level puede ser un valor de 1 (mínima resistencia) a 5 (máxima resistencia).
-* <b> void setMaxOut(uint8_t maxOut):</b> Define el valor máximo de salida que se obtendrá al leer el sensor.
-* <b> void setMaxRead(uint16_t mRead):</b> Establece el límite superior de la lectura antes de aplicar el ajuste de salida.
+* <b> bool isTouched():</b> Devuelve verdadero si se está tocando el pin táctil.
+* <b> bool isHold(short HoldTIME = 400):</b> Devuelve verdadero si se mantuvo presionado el toque durante el tiempo especificado en milisegundos.
+* <b> bool isHolded(short HoldedTIME = 400):</b> Devuelve verdadero una vez si se mantuvo presionado el toque durante el tiempo especificado y luego se reinicia cuando se suelta.
+* <b> bool isRelease(short ReleaseTIME = 400):</b> Devuelve verdadero cuando se suelta el toque después de mantenerlo presionado durante el tiempo especificado.
+* <b> bool isClick():</b> Devuelve verdadero si se detecta un solo clic.
+* <b> bool isClicks(uint8_t count):</b> Devuelve verdadero si se detecta la cantidad especificada de clics.
 
-### Notas
+### NOTAS
 
-* El sensor de presión MPS20N0040D necesita una alimentación estable y debe ser conectado adecuadamente al ESP32.
-* La librería incluye una función para ajustar la resistencia de soplo, permitiendo adaptarla a diferentes niveles de sensibilidad según la necesidad del proyecto.
-* Los valores que establescas por medio de las funciones setMaxOut y setMaxRead afectan la sensibilidad y resistencia
-* El valor recomendado para setMaxOut es 127 ya que es el maximo que se envia como parametro de velocidad segun el estandar MIDI
-* El valor recomendaddo para setMaxRead es 255 pero puede ajustarse en un rango de 200 a 500, puedes probar con cual funciona mejor.
+La biblioteca utiliza la funcionalidad touch_pad interna del ESP32, lo que garantiza una detección táctil precisa.
+El parámetro de umbral le permite ajustar la sensibilidad de la detección táctil.
+Los valores de tiempo (ClickTIME, HoldTIME, ResetTIME) se pueden ajustar en función de la capacidad de respuesta deseada.
 
 ## Ejemplos
 
-En la carpeta de examples del repositorio, encontrarás ejemplos adicionales que muestran cómo utilizar la librería Breath con el ESP32.
+En la carpeta de examples del repositorio, encontrarás ejemplos adicionales que muestran cómo utilizar la librería TouchButton con el ESP32.
 
 ## Contribuciones
 
@@ -86,7 +84,7 @@ Las contribuciones son bienvenidas. Si encuentras un problema o tienes una suger
 TouchButton is a library designed to simplify the use of capacitive touch inputs with the ESP32, allowing you to easily detect touch interactions like clicks, holds, and releases.
 
 <p align="center">
-<img width="25%" src='https://static.wixstatic.com/media/99ba69_f4d46c2102c24d46a3c3661d1a71ab0c~mv2.jpg/v1/fill/w_668,h_581,al_c,q_85/99ba69_f4d46c2102c24d46a3c3661d1a71ab0c~mv2.jpg' title=''/>
+<img width="25%" src='https://i.postimg.cc/15tXcXJD/touch.png' title=''/>
 </p>
 
 ## Features
