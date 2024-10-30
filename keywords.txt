@@ -1,7 +1,7 @@
-tb	KEYWORD1
-isTouched KEYWORD2
-isClick	KEYWORD2
-isClicks	KEYWORD2
-isHold	KEYWORD2
-isHolded	KEYWORD2
-isRelease	KEYWORD2
+tb  KEYWORD1
+isTouched  KEYWORD2
+isClick  KEYWORD2
+isClicks  KEYWORD2
+isHold  KEYWORD2
+isHolded  KEYWORD2
+isRelease  KEYWORD2
