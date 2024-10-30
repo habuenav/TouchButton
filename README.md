@@ -11,7 +11,6 @@ TouchButton es una biblioteca diseñada para simplificar el uso de los pines tá
 ## Video demo
 [![Video](https://i9.ytimg.com/vi_webp/CZT4Cc9K-DI/mq2.webp?sqp=CMD0h7kG-oaymwEmCMACELQB8quKqQMa8AEB-AG-AoAC4AOKAgwIABABGGUgXihaMA8=&rs=AOn4CLAyH8MoagsQNR8sYxJ0jhskvQ-MVQ)](https://www.youtube.com/watch?v=CZT4Cc9K-DI)
 
-
 ## Caracteristicas
 
 - **Optimizado para ESP32**: utiliza la funcionalidad del sensor táctil integrado.
