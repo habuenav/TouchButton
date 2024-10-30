@@ -12,7 +12,7 @@ void setup() {
 void loop() {
 
   //Single tap
-  if(button1.isClicks(1)) Serial.println("Single tap");
+  if(button1.isClick()) Serial.println("Single tap");
   //Double tap
   if(button1.isClicks(2)) Serial.println("Double tap");
   //Triple tap
