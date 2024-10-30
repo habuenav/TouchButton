@@ -17,7 +17,7 @@ TouchButton es una biblioteca diseñada para simplificar el uso de los pines tá
 - **Sensibilidad personalizable**: establece el umbral de sensibilidad táctil para adaptarse a diferentes necesidades.
 - **Interacciones táctiles**: detecta varios eventos táctiles, incluidos clics únicos, clics múltiples, presiones y liberaciones.
 - **Ajuste del umbral**: establece automáticamente la sensibilidad en función de una lectura inicial.
-- 
+
 ## Requirementos
 
 - **Board** : Probado en tarjetas Esp32.
